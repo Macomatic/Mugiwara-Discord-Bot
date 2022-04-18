@@ -15,7 +15,7 @@ for (const file of commandFiles) {
 
 // When the client is ready, run this code (only once)
 client.once('ready', () => {
-	console.log('Ready!');
+	console.log('Bot is online and running!');
 });
 
 client.on('interactionCreate', async interaction => {
@@ -30,7 +30,7 @@ client.on('interactionCreate', async interaction => {
     }
     catch (error) {
         console.error(error);
-        await interaction.reply({ content: 'Error', ephemeral: true });
+        await interaction.reply({ content: 'An error has occured', ephemeral: true });
     }
 });
 

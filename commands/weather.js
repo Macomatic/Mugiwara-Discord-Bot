@@ -1,0 +1,46 @@
+const { SlashCommandBuilder } = require('@discordjs/builders');
+const { MessageEmbed } = require('discord.js');
+const weather = require('weather-js');
+
+
+module.exports = {
+    data: new SlashCommandBuilder()
+        .setName('weather')
+        .setDescription('Displays the weather of a given location')
+        .addStringOption(option => 
+            option.setName('city')
+                .setDescription('The city that you want the weather from')
+                .setRequired(true)),
+    async execute(interaction) {
+        const city = interaction.options.getString('city');
+        weather.find({ search: city, degreeType: 'C' }, function(error, result) {
+            if (error) {
+                return interaction.reply(error);
+            }
+            if (!city) {
+                return interaction.reply('Please provide a city name');
+            }
+            if (result === undefined || result.length == 0) {
+                return interaction.reply('Please give a valid location');
+            }
+
+            const currentStatus = result[0].current;
+            const location = result[0].location;
+
+            const embed = new MessageEmbed()
+                .setTitle(`Weather for ${currentStatus.observationpoint}`)
+                .setDescription(currentStatus.skytext)
+                .setThumbnail(currentStatus.imageUrl)
+                .setColor('#ffffff')
+                .setTimestamp()
+                .addField('Temperature: ', `${currentStatus.temperature}°C`, true)
+                .addField('Wind Speed: ', currentStatus.winddisplay, true)
+                .addField('Humidity: ', `${currentStatus.humidity}%`, true)
+                .addField('Timezone: ', `UTC${location.timezone}`, true)
+                .setFooter('/weather command');
+
+                return interaction.reply({ embeds: [embed] });
+
+        });
+    },
+};
