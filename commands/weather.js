@@ -14,6 +14,7 @@ module.exports = {
     async execute(interaction) {
         const city = interaction.options.getString('city');
         weather.find({ search: city, degreeType: 'C' }, function(error, result) {
+            // error checking
             if (error) {
                 return interaction.reply(error);
             }
@@ -28,6 +29,7 @@ module.exports = {
             const location = result[0].location;
             let embedColor = '#ffffff';
             
+            // dynamically setting the color based on temperature ranges
             if (currentStatus.temperature < 0) {
                 embedColor = '#349FE5';
             }
@@ -41,6 +43,7 @@ module.exports = {
                 embedColor = '#E82519';
             }
 
+            // creating the embed for a nice discord format of the result
             const embed = new MessageEmbed()
                 .setTitle(`Weather for ${currentStatus.observationpoint}`)
                 .setDescription(currentStatus.skytext)
