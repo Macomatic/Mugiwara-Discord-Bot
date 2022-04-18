@@ -26,12 +26,26 @@ module.exports = {
 
             const currentStatus = result[0].current;
             const location = result[0].location;
+            let embedColor = '#ffffff';
+            
+            if (currentStatus.temperature < 0) {
+                embedColor = '#349FE5';
+            }
+            else if (currentStatus.temperature >= 0 && currentStatus.temperature < 10) {
+                embedColor = '#FCF146';
+            }
+            else if (currentStatus.temperature >= 10 && currentStatus.temperature < 20) {
+                embedColor = '#DF8014';
+            }
+            else {
+                embedColor = '#E82519';
+            }
 
             const embed = new MessageEmbed()
                 .setTitle(`Weather for ${currentStatus.observationpoint}`)
                 .setDescription(currentStatus.skytext)
                 .setThumbnail(currentStatus.imageUrl)
-                .setColor('#ffffff')
+                .setColor(embedColor)
                 .setTimestamp()
                 .addField('Temperature: ', `${currentStatus.temperature}°C`, true)
                 .addField('Wind Speed: ', currentStatus.winddisplay, true)
