@@ -1,0 +1,29 @@
+{
+  "name": "mugiwara-discord-bot",
+  "version": "1.0.0",
+  "description": "A general purpose discord bot made with Node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Macomatic/Mugiwara-Discord-Bot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Macomatic/Mugiwara-Discord-Bot/issues"
+  },
+  "homepage": "https://github.com/Macomatic/Mugiwara-Discord-Bot#readme",
+  "dependencies": {
+    "@discordjs/builders": "^0.13.0",
+    "@discordjs/rest": "^0.4.1",
+    "discord-api-types": "^0.31.1",
+    "discord.js": "^13.6.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.13.0"
+  }
+}
