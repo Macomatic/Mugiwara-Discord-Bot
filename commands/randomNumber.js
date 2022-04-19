@@ -10,6 +10,7 @@ module.exports = {
                 .setDescription('The end value of the range to get a random number from')
                 .setRequired(true)),
     async execute(interaction) {
+        // random number generation, dependent on end range
         const endRange = interaction.options.getNumber('range');
         const random = Math.floor(Math.random() * (endRange + 1));
 

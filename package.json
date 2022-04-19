@@ -20,8 +20,10 @@
   "dependencies": {
     "@discordjs/builders": "^0.13.0",
     "@discordjs/rest": "^0.4.1",
+    "anilist-node": "^1.11.2",
     "discord-api-types": "^0.31.1",
     "discord.js": "^13.6.0",
+    "trace.moe": "^1.1.1",
     "weather-js": "^2.0.0"
   },
   "devDependencies": {
