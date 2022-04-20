@@ -15,7 +15,7 @@ module.exports = {
         let username = (interaction.options.getString('username')).toLowerCase();
         username = username.charAt(0).toUpperCase() + username.slice(1);
 
-        // line causing error
+        // calling the api and grabbing profile fields
         try {
             const { data } = await jikanjs.loadUser(username);
             const imageUrl = data.images.jpg.image_url;
