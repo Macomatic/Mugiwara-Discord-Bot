@@ -8,6 +8,7 @@ const { MessageEmbed } = require('discord.js');
 const Anilist = new anilist();
 const traceClient = new Client();
 
+
 module.exports = {
     data: new SlashCommandBuilder()
     .setName('animebypicture')
@@ -21,6 +22,7 @@ module.exports = {
         // using trace.moe API call to get information, saving it to a variable for future use
         const imageUrl = interaction.options.getString('url');
         const searchResults = await traceClient.getSimilarFromURL(imageUrl);
+        await interaction.channel.send(`Source image: ${imageUrl}`);
         
         
         // I'm only giving results when the API has a confidence rating above 90%
@@ -66,6 +68,7 @@ module.exports = {
         }
 
         // grabbing the anime's data using MAL API, then setting it to a discord embed alongside trace.moe API
+        
         Anilist.media.anime(animeID).then(data => {
             const romajiTitle = data.title.romaji;
             const releaseDate = `${data.season}, ${data.seasonYear}`;
