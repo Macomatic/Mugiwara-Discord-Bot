@@ -21,9 +21,7 @@ module.exports = {
 
         // using trace.moe API call to get information, saving it to a variable for future use
         const imageUrl = interaction.options.getString('url');
-        const searchResults = await traceClient.getSimilarFromURL(imageUrl);
-        await interaction.channel.send(`Source image: ${imageUrl}`);
-        
+        const searchResults = await traceClient.getSimilarFromURL(imageUrl);        
         
         // I'm only giving results when the API has a confidence rating above 90%
         let similarity = parseFloat(searchResults.result[0].similarity);
@@ -87,6 +85,7 @@ module.exports = {
                 .addField('Timestamp', `${startTime} - ${endTime}`)
                 .addField('Similarity', `${similarity}`)
                 .addField('MAL Link', `https://myanimelist.net/anime/${malID}`)
+                .setImage(imageUrl)
                 .setFooter('/animebypicture command');
                 
 
