@@ -1,0 +1,5 @@
+{
+	"clientId": "DISCORD_BOT_ID_GOES_HERE",
+	"token": "DISCORD_BOT_AUTH_TOKEN_GOES_HERE",
+	"guildId": "DISCORD_SERVER_ID_GOES_HERE"
+}

@@ -25,7 +25,7 @@ module.exports = {
         
         // I'm only giving results when the API has a confidence rating above 90%
         let similarity = parseFloat(searchResults.result[0].similarity);
-        if (similarity < 0.90) {
+        if (similarity < 0.88) {
             return interaction.reply('I could not determine which anime this comes from with absolute certainty. Please try another image!');
         }
 
