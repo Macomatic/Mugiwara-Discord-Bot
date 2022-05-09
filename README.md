@@ -52,7 +52,7 @@ The Discord Bot currently has the following functionality:
   * Load current Anime season
 * Find Anime by Picture
 
-The goal of this project is to show my knowledge Node.js as well as my ability to understand and implement different APIs.
+The goal of this project is to show my knowledge Node.js through the Discord bot. In addition, I also use asynchronous calls alongside API calls to get information for certain commands.
 
 ### Built With
 
