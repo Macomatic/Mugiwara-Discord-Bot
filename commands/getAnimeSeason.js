@@ -1,5 +1,4 @@
 const jikanjs = require('@mateoaranda/jikanjs');
-// const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 
