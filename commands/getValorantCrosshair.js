@@ -21,12 +21,16 @@ module.exports = {
 
         // error handling
         const status = crosshair.status;
-        if (status == 400) {
+        if (status == 400 || status == 404) {
             return interaction.reply('Please provide a valid valorant crosshair code');
         }
 
-        else if (status == 403) {
+        else if (status == 403 || status == 503) {
             return interaction.reply('Riot API Maintenance: Try again later');
+        }
+
+        else if (status == 408) {
+            return interaction.reply('Timeout while fetching data');
         }
 
         // creating embed for crosshair display in chat
