@@ -156,7 +156,9 @@ module.exports = {
                 .addField(`#23: ${mangaNames[22]}`, `Type: ${mangaType[22]}, Chapters: ${mangaChapters[22]}, Score: ${mangaScore[22]}`)
                 .addField(`#24: ${mangaNames[23]}`, `Type: ${mangaType[23]}, Chapters: ${mangaChapters[23]}, Score: ${mangaScore[23]}`)
                 .addField(`#25: ${mangaNames[24]}`, `Type: ${mangaType[24]}, Chapters: ${mangaChapters[24]}, Score: ${mangaScore[24]}`)
-                .setFooter('/gettop manga command');
+                .setFooter({
+                    text: '/gettop manga command',
+                });
 
                 return interaction.reply({ embeds: [embed] });
 

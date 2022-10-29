@@ -1,5 +1,4 @@
 const jikanjs = require('@mateoaranda/jikanjs');
-// const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 
@@ -105,7 +104,9 @@ module.exports = {
                 .addField(`#8: ${animeNames[7]}`, `Type: ${animeType[7]}, Episodes: ${animeEpisodes[7]}, Score: ${animeScore[7]}`)
                 .addField(`#9: ${animeNames[8]}`, `Type: ${animeType[8]}, Episodes: ${animeEpisodes[8]}, Score: ${animeScore[8]}`)
                 .addField(`#10: ${animeNames[9]}`, `Type: ${animeType[9]}, Episodes: ${animeEpisodes[9]}, Score: ${animeScore[9]}`)
-                .setFooter('/gettop anime command');
+                .setFooter({
+                    text: '/gettop anime command',
+                });
 
                 return interaction.reply({ embeds: [embed] });
     },

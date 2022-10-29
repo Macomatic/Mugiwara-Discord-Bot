@@ -179,7 +179,9 @@ module.exports = {
                 .setTitle(name)
                 .setImage(image)
                 .addField('MAL Link', `[Link](${malLink})`, true)
-                .setFooter('/findrandommal people command');
+                .setFooter({
+                    text: '/findrandommal people command',
+                });
 
                 return interaction.reply({ embeds: [embed] });
         }

@@ -26,7 +26,9 @@ module.exports = {
                 .setImage(imageUrl)
                 .addField('Anime List', `[Link](https://myanimelist.net/animelist/${username})`, true)
                 .addField('Manga List', `[Link](https://myanimelist.net/mangalist/${username})`, true)
-                .setFooter('/findmaluser command');
+                .setFooter({
+                    text: '/findmaluser command',
+                });
             return interaction.reply({ embeds: [embed] });
         }
 

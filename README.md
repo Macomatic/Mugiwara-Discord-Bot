@@ -51,6 +51,12 @@ The Discord Bot currently has the following functionality:
   * Load top MAL information
   * Load current Anime season
 * Find Anime by Picture
+* Valorant
+  * Find a Valorant Player
+  * Get all items from the current Valorant bundle
+  * Display a crosshair from the code
+  * Generate a completely random crosshair
+  * Display at most 5 recent valorant matches for a player
 
 The goal of this project is to show my knowledge Node.js through the Discord bot. In addition, I also use asynchronous calls alongside API calls to get information for certain commands.
 
@@ -64,6 +70,8 @@ The following are a list of dependencies/packages that were used in the Discord 
 * [Trace.moe.js](https://www.npmjs.com/package/trace.moe)
 * [Anilist-Node](https://www.npmjs.com/package/anilist-node)
 * [JikanJS](https://github.com/mateoaranda/jikanjs)
+* [Henrik-3 Unoficial Valorant API](https://www.npmjs.com/package/unofficial-valorant-api)
+
 
 ## Getting Started
 
