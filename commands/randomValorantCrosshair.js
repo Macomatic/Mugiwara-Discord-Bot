@@ -11,11 +11,15 @@ module.exports = {
         // ===============  RANDOMIZING CROSSHAIR BEGINNING ===============
         let chcode = '';
         let rand = 0;
+        
+        // temporary "solution" to minimize number of invalid crosshairs
+        let consecutiveZeroCount = 0; 
 
         // 0;P or 0;s;1;P --> Genuinely no clue what this option means, only that they are mutually exclusive
         rand = Math.floor(Math.random() * 2);
         if (rand == 0) {
             chcode += '0;P;';
+            consecutiveZeroCount++;
         }
         else {
             chcode += '0;s;1;P;';
@@ -26,10 +30,13 @@ module.exports = {
         if (rand != 0) {
             chcode += `c;${rand};`;
         }
+        else {
+            consecutiveZeroCount++;
+        }
 
         // h;0 for outlines off, no h for outlines on
         rand = Math.floor(Math.random() * 2);
-        if (rand == 0) {
+        if (rand == 0 && consecutiveZeroCount < 2) {
             chcode += 'h;0;';
         }
         // when outlines are on, t;[1,6] for outline thickness and o;[0.000,1.000] for outline opacity
@@ -42,7 +49,8 @@ module.exports = {
 
         // d;1 for center dot, nothing for no center dot. when center dot is on, z;[1,6] for center dot thickness, a;[0.000,1.000) for center dot opacity. if a is 1.000, then a;1.000 IS NOT INCLUDED
         rand = Math.floor(Math.random() * 2);
-        if (rand == 1) {
+        if (rand == 1 || consecutiveZeroCount >= 1) {
+            consecutiveZeroCount = 0;
             chcode += 'd;1;';
             rand = Math.floor(Math.random() * 6) + 1;
             chcode += `z;${rand};`;
@@ -56,24 +64,27 @@ module.exports = {
         rand = Math.floor(Math.random() * 2);
         if (rand == 0) {
             chcode += 'f;0;';
+            consecutiveZeroCount++;
         }
 
         // s;0 for NO show spectated player's crosshair, nothing if on
         rand = Math.floor(Math.random() * 2);
         if (rand == 0) {
             chcode += 's;0;';
+            consecutiveZeroCount++;
         }
 
         // m;1 for override firing error offset with crosshair offset, nothing if off
         rand = Math.floor(Math.random() * 2);
         if (rand == 1) {
             chcode += 'm;1;';
+            consecutiveZeroCount++;
         }
 
         // Inner Lines Massive Chunk
         // 0b;0 if inner lines off, otherwise alot of other options if on
         rand = Math.floor(Math.random() * 2);
-        if (rand == 0) {
+        if (rand == 0 && consecutiveZeroCount < 2) {
             chcode += '0b;0;';
         }
         else {
@@ -134,7 +145,7 @@ module.exports = {
         // Outer Lines Massive Chunk
         // 1b;0 if outer lines off, otherwise alot of other options if on
         rand = Math.floor(Math.random() * 2);
-        if (rand == 0) {
+        if (rand == 0 && consecutiveZeroCount < 2) {
             chcode += '1b;0;';
         }
         else {
@@ -165,6 +176,7 @@ module.exports = {
                     chcode += '1f;0;';
                 }
                 else {
+                    // 0e error [0.010, 3.000]
                     rand = (Math.random() * (0.000 - 3.000) + 3.000).toFixed(3);
                     chcode += `1e;${rand};`;
                 }
