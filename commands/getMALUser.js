@@ -5,7 +5,7 @@ const jikanjs = require('@mateoaranda/jikanjs');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('findmaluser')
+        .setName('getmaluser')
         .setDescription('Gives the MAL account for the provided username')
         .addStringOption(option => 
             option.setName('username')
@@ -22,12 +22,12 @@ module.exports = {
             const profileUrl = data.url;
             const embed = new MessageEmbed()
                 .setTitle(`${username}'s MAL Account`)
-                .setDescription(profileUrl)
+                .setDescription(`[MAL Profile](${profileUrl})`)
                 .setImage(imageUrl)
                 .addField('Anime List', `[Link](https://myanimelist.net/animelist/${username})`, true)
                 .addField('Manga List', `[Link](https://myanimelist.net/mangalist/${username})`, true)
                 .setFooter({
-                    text: '/findmaluser command',
+                    text: '/getmaluser command',
                 });
             return interaction.reply({ embeds: [embed] });
         }
