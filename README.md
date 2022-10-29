@@ -51,6 +51,10 @@ The Discord Bot currently has the following functionality:
   * Load top MAL information
   * Load current Anime season
 * Find Anime by Picture
+* Valorant
+  * Find a Valorant Player
+  * Get all items from the current Valorant bundle
+  * Display a crosshair from the code
 
 The goal of this project is to show my knowledge Node.js through the Discord bot. In addition, I also use asynchronous calls alongside API calls to get information for certain commands.
 
