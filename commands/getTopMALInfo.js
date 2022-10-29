@@ -4,7 +4,7 @@ const { MessageEmbed } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('gettop')
+        .setName('gettopmal')
         .setDescription('Gets the top 25 of the given parameter on MAL')
         .addStringOption(option => 
             option.setName('type')

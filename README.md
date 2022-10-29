@@ -47,9 +47,7 @@ The Discord Bot currently has the following functionality:
 * Getting the weather for a given city
 * Search through MyAnimeList (MAL)
   * Find MAL User
-  * Load Random MAL information
-  * Load top MAL information
-  * Load current Anime season
+  * Load MAL information
 * Find Anime by Picture
 * Valorant
   * Find a Valorant Player
@@ -130,17 +128,15 @@ The command prompt should say *Successfully registered application commands.* Ru
    ```
 The command prompt should say *Bot is online and running!*. Check your discord server; if the bot is online, you have got it working!
 
-Now type a / in chat, click the bot's icon on the left navbar on the popup, and you should be able to see all of the bots commands. Commands include:
+Now type a / in chat, click the bot's icon on the left navbar on the popup, and you should be able to see all of the bots commands. Commands include, but are not limited to:
 
 * /animebypicture: Finds the anime based on a given image
-* /findmaluser: Gives the MAL account for the provided username
-* /getanimeseason: Gets the top 10 anime of the season based on the given parameter
-* /getrandom: Finds random information on MAL on the given parameter
-* /gettop: Gets the top 25 of the given parameter on MAL
+* /getrandommal: Finds random information on MAL on the given parameter
+* /gettopmal: Gets the top 25 of the given parameter on MAL
 * /math: Computes basic math operations
-* /ping: Responds with pong!
 * /rng: Generates a number from 0 to a given number
 * /weather: Gets the weather for a provided city
+* /val: Shows all commands containing val as auto-suggestions
    
 For all of these commands, it will prompt for parameters when you select them.
   

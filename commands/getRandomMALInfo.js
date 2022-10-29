@@ -4,7 +4,7 @@ const { MessageEmbed } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('getrandom')
+        .setName('getrandommal')
         .setDescription('Finds random information on MAL based on given parameter')
         .addStringOption(option => 
             option.setName('type')
