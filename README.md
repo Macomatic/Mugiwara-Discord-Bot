@@ -55,6 +55,7 @@ The Discord Bot currently has the following functionality:
   * Find a Valorant Player
   * Get all items from the current Valorant bundle
   * Display a crosshair from the code
+  * Display at most 5 recent valorant matches for a player
 
 The goal of this project is to show my knowledge Node.js through the Discord bot. In addition, I also use asynchronous calls alongside API calls to get information for certain commands.
 
