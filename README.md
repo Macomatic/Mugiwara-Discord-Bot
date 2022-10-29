@@ -64,6 +64,8 @@ The following are a list of dependencies/packages that were used in the Discord 
 * [Trace.moe.js](https://www.npmjs.com/package/trace.moe)
 * [Anilist-Node](https://www.npmjs.com/package/anilist-node)
 * [JikanJS](https://github.com/mateoaranda/jikanjs)
+* [Henrik-3 Unoficial Valorant API](https://www.npmjs.com/package/unofficial-valorant-api)
+
 
 ## Getting Started
 

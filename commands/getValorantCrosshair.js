@@ -4,7 +4,7 @@ const { MessageEmbed } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('getvalorantch')
+        .setName('getvalcrosshair')
         .setDescription('Gets the valorant crosshair from a crosshair code')
         .addStringOption(option => 
             option.setName('ch_code')
