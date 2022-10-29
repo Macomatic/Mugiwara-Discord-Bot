@@ -40,7 +40,7 @@ module.exports = {
         }
 
         // API call for MMR; happens after error check to ensure account exists
-        const mmr = await VAPI.getMMR({ version: 'v1', region: account.data.region, name: account.data.name, tag: account.data.tag});
+        const mmr = await VAPI.getMMR({ version: 'v1', region: account.data.region, name: account.data.name, tag: account.data.tag });
 
         // Custom embed color based on rank
         let embedColor = '#ffffff';
@@ -87,7 +87,9 @@ module.exports = {
             .setThumbnail(mmr.data.images.small)
             .setImage(account.data.card.wide)
             .setTimestamp()
-            .setFooter('/getValAccount command');
+            .setFooter({
+                text: '/getValAccount command', 
+            });
 
         return interaction.reply({ embeds: [embed] });
 

@@ -86,7 +86,9 @@ module.exports = {
                 .addField('Similarity', `${similarity}`)
                 .addField('MAL Link', `https://myanimelist.net/anime/${malID}`)
                 .setImage(imageUrl)
-                .setFooter('/animebypicture command');
+                .setFooter({
+                    text: '/animebypicture command',
+                });
                 
 
                 return interaction.reply({ embeds: [embed] });

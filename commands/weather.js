@@ -54,7 +54,9 @@ module.exports = {
                 .addField('Wind Speed: ', currentStatus.winddisplay, true)
                 .addField('Humidity: ', `${currentStatus.humidity}%`, true)
                 .addField('Timezone: ', `UTC${location.timezone}`, true)
-                .setFooter('/weather command');
+                .setFooter({
+                    text: '/weather command',
+                });
 
                 return interaction.reply({ embeds: [embed] });
 

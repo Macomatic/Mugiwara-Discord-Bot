@@ -39,7 +39,9 @@ module.exports = {
             .addField('Code', `${chcode}`, false)
             .setColor('#47A4E4')
             .setImage(crosshair.url)
-            .setFooter('/getvalorantch command');
+            .setFooter({
+                text: '/getvalorantch command',
+            });
 
             return interaction.reply({ embeds: [embed] });
 

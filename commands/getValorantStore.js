@@ -58,7 +58,9 @@ module.exports = {
             .addField('Total Price', `${price} Credits`, true)
             .addField('Duration', `${duration}`, true)
             .setColor('#ededed')
-            .setFooter('/getValorantStore command');
+            .setFooter({
+                text: '/getValorantStore command',
+            });
         
         embeds.push(itemEmbed);
 

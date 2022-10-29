@@ -19,7 +19,9 @@ module.exports = {
             .setDescription(`${random}`)
             .setThumbnail('https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Number_theory_symbol.svg/1079px-Number_theory_symbol.svg.png')
             .setColor('#63CCDE')
-            .setFooter('Random Number Generator')
+            .setFooter({
+                text: 'Random Number Generator',
+            })
             .setTimestamp();
 
             return interaction.reply({ embeds: [embed] });
