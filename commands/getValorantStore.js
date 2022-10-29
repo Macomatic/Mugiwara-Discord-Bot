@@ -10,9 +10,7 @@ module.exports = {
 
         // API call to get items in valorant store
         const VAPI = new HenrikDevValorantAPI();
-        const items = await VAPI.getFeaturedItems({ version: 'v2' });
-        console.log(items);
-        
+        const items = await VAPI.getFeaturedItems({ version: 'v2' });        
 
         // error handling
         const status = items.status;
@@ -89,6 +87,7 @@ module.exports = {
                 .addField('Price', `${item.base_price} Credits`, true)
                 .setColor('#e6b8b8')
                 .setImage(item.image)
+                .setTimestamp()
                 .setFooter('/getValorantStore command');
 
             embeds.push(itemEmbed);
