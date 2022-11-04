@@ -1,4 +1,4 @@
-const HenrikDevValorantAPI = require('unofficial-valorant-api');
+const { VAPIKey } = require('../config.json');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 
@@ -22,71 +22,77 @@ module.exports = {
 
 
         // API call to get basic account info
-        const VAPI = new HenrikDevValorantAPI();
-        const rankedGames = await VAPI.getMMRHistory({ region: 'na', name: username, tag: tag }); 
+        const url = 'https://api.henrikdev.xyz/valorant/v1/mmr-history/na/' + username + '/' + tag;
+        fetch(url, {
+            headers: {
+                'Authorization': VAPIKey,
+            },
+        })
+        .then((response) => response.json())
+        .then(rankedGames => {
 
-        // error handling
-        const status = rankedGames.status;
-        if (status == 400 || status == 404) {
-            return interaction.reply('Games do not exist on this account');
-        }
+            // error handling
+            const status = rankedGames.status;
+            if (status == 400 || status == 404) {
+                return interaction.reply('Games do not exist on this account');
+            }
 
-        else if (status == 403 || status == 503) {
-            return interaction.reply('Riot API Maintenance: Try again later');
-        }
+            else if (status == 403 || status == 503) {
+                return interaction.reply('Riot API Maintenance: Try again later');
+            }
 
-        else if (status == 408) {
-            return interaction.reply('Timeout while fetching data');
-        }
+            else if (status == 408) {
+                return interaction.reply('Timeout while fetching data');
+            }
+ 
 
-        const account = await VAPI.getAccount({ name: username, tag: tag });   
-
-
-        // adjusting loop to run for max of 5 recent games
-        let numOfGames;
-        if (rankedGames.data.length >= 5) {
-            numOfGames = 5;
-        }
-        else {
-            numOfGames = rankedGames.data.length;
-        }
-
-        // embed formatting
-        const rg = rankedGames.data;
-        const embeds = [];
-        let embedColor;
-        let arrow;
-        for (let i = 0; i < numOfGames; i++) {
-
-            if (rg[i].mmr_change_to_last_game > 0) {
-                embedColor = '#30EF53';
-                arrow = rg[i].images.triangle_up;
+            // adjusting loop to run for max of 5 recent games
+            let numOfGames;
+            if (rankedGames.data.length >= 5) {
+                numOfGames = 5;
             }
             else {
-                embedColor = '#FC2D10';
-                arrow = rg[i].images.triangle_down;
+                numOfGames = rankedGames.data.length;
             }
 
-            // embed
-            const gameEB = new MessageEmbed()
-                .setTitle(`${account.data.name} #${account.data.tag}: Game #${i + 1}`)
-                .setDescription(`${rg[i].date} BST`)
-                .addField('Rank', `${rg[i].currenttierpatched}`, true)
-                .addField('MMR', `${rg[i].ranking_in_tier}`, true)
-                .addField('Gain/Loss', `${rg[i].mmr_change_to_last_game}`, true)
-                .setColor(embedColor)
-                .setThumbnail(arrow)
-                // .setImage(account.data.card.wide)
-                .setFooter({
-                    text: '/getvalr command', 
-                });
+            // embed formatting
+            const rg = rankedGames.data;
+            const embeds = [];
+            let embedColor;
+            let arrow;
+            for (let i = 0; i < numOfGames; i++) {
 
-                embeds.push(gameEB);
-        }
+                if (rg[i].mmr_change_to_last_game > 0) {
+                    embedColor = '#30EF53';
+                    arrow = rg[i].images.triangle_up;
+                }
+                else {
+                    embedColor = '#FC2D10';
+                    arrow = rg[i].images.triangle_down;
+                }
 
-        
-        return await interaction.reply({ embeds: embeds });
+                // embed
+                const gameEB = new MessageEmbed()
+                    .setTitle(`${rankedGames.name} #${rankedGames.tag}: Game #${i + 1}`)
+                    .setDescription(`${rg[i].date} BST`)
+                    .addField('Rank', `${rg[i].currenttierpatched}`, true)
+                    .addField('MMR', `${rg[i].ranking_in_tier}`, true)
+                    .addField('Gain/Loss', `${rg[i].mmr_change_to_last_game}`, true)
+                    .setColor(embedColor)
+                    .setThumbnail(arrow)
+                    // .setImage(account.data.card.wide)
+                    .setFooter({
+                        text: '/getvalr command', 
+                    });
 
+                    embeds.push(gameEB);
+            }
+            interaction.reply({ embeds: embeds });
+    
+        })
+        .catch((error) => {
+            interaction.reply(error);
+        });
 
     },
 };

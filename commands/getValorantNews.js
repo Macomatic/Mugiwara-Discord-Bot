@@ -1,6 +1,6 @@
-const HenrikDevValorantAPI = require('unofficial-valorant-api');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
+const { VAPIKey } = require('../config.json');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -17,80 +17,88 @@ module.exports = {
 
 
         // API call to get basic account info
-        const VAPI = new HenrikDevValorantAPI();
-        const newsPayload = await VAPI.getWebsite({ country_code: 'en-us' });   
-
-        // error handling
-        const status = newsPayload.status;
-        if (status == 400 || status == 404) {
-            return interaction.reply('This account does not exist or is private');
-        }
-
-        else if (status == 403 || status == 503) {
-            return interaction.reply('Riot API Maintenance: Try again later');
-        }
-
-        else if (status == 408) {
-            return interaction.reply('Timeout while fetching data');
-        }
-
-        else if (type != 'patch_notes' && type != 'esports' && type != 'game_updates' && type != 'dev' && type != 'community' && type != 'announcements') {
-            return interaction.reply('Please provide a valid, CASE-SENSITIVE option');
-        }
-
-        // Parse through all the news to find the 3 most recent of the provided type of news
-        const news = newsPayload.data;
-        const relevantNews = [];
-        let newsType;
-
-        for (let i = 0; i < news.length; i++) {
-            newsType = news[i].category;
-            if (newsType == type) {
-                relevantNews.push(news[i]);
+        const url = 'https://api.henrikdev.xyz/valorant/v1/website/en-us';
+        fetch(url, {
+            headers: {
+                'Authorization': VAPIKey,
+            },
+        })
+        .then((response) => response.json())
+        .then(newsPayload => {
+            // error handling
+            const status = newsPayload.status;
+            if (status == 400 || status == 404) {
+                return interaction.reply('This account does not exist or is private');
             }
 
-            if (relevantNews.length >= 3 || (relevantNews.length >= 1 && newsType == 'patch_notes')) {
-                break;
+            else if (status == 403 || status == 503) {
+                return interaction.reply('Riot API Maintenance: Try again later');
             }
-        }
 
-        
-        // Reformating category
-        let category;
-        if (type == 'patch_notes') {
-            category = 'Patch Notes';
-        }
-        else if (type == 'game_updates') {
-            category = 'Game Updates';
-        }
-        else {
-            category = type.charAt(0).toUpperCase() + type.slice(1);
-        }
-        
-        // Parsing through relevant news to create embed array for discord output
-        const newsEB = [];
-        let date;
-        for (let i = 0; i < relevantNews.length; i++) {
+            else if (status == 408) {
+                return interaction.reply('Timeout while fetching data');
+            }
+
+            else if (type != 'patch_notes' && type != 'esports' && type != 'game_updates' && type != 'dev' && type != 'community' && type != 'announcements') {
+                return interaction.reply('Please provide a valid, CASE-SENSITIVE option');
+            }
+
+            // Parse through all the news to find the 3 most recent of the provided type of news
+            const news = newsPayload.data;
+            const relevantNews = [];
+            let newsType;
+
+            for (let i = 0; i < news.length; i++) {
+                newsType = news[i].category;
+                if (newsType == type) {
+                    relevantNews.push(news[i]);
+                }
+
+                if (relevantNews.length >= 3 || (relevantNews.length >= 1 && newsType == 'patch_notes')) {
+                    break;
+                }
+            }
+
             
-            date = relevantNews[i].date.substring(0, 10);
+            // Reformating category
+            let category;
+            if (type == 'patch_notes') {
+                category = 'Patch Notes';
+            }
+            else if (type == 'game_updates') {
+                category = 'Game Updates';
+            }
+            else {
+                category = type.charAt(0).toUpperCase() + type.slice(1);
+            }
+            
+            // Parsing through relevant news to create embed array for discord output
+            const newsEB = [];
+            let date;
+            for (let i = 0; i < relevantNews.length; i++) {
+                
+                date = relevantNews[i].date.substring(0, 10);
 
-            // embed
-            const embed = new MessageEmbed()
-                .setTitle(`${relevantNews[i].title}`)
-                .setDescription(`[URL](${relevantNews[i].url})`)
-                .addField('Category', `${category}`, true)
-                .addField('Date', `${date}`, true)
-                .setColor('#A0CF5D')
-                .setImage(relevantNews[i].banner_url)
-                .setFooter({
-                    text: '/getvalnews command', 
-                });
+                // embed
+                const embed = new MessageEmbed()
+                    .setTitle(`${relevantNews[i].title}`)
+                    .setDescription(`[URL](${relevantNews[i].url})`)
+                    .addField('Category', `${category}`, true)
+                    .addField('Date', `${date}`, true)
+                    .setColor('#A0CF5D')
+                    .setImage(relevantNews[i].banner_url)
+                    .setFooter({
+                        text: '/getvalnews command', 
+                    });
 
-                newsEB.push(embed);
-        }
+                    newsEB.push(embed);
+            }
         
-
-        return interaction.reply({ embeds: newsEB });
+            return interaction.reply({ embeds: newsEB });
+        })
+        .catch((error) => {
+            interaction.reply(error);
+        });
 
     },
 };
