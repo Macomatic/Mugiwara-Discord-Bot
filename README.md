@@ -184,6 +184,7 @@ Here are some resources that will help with developing the bot!
 * [Trace Moe API](https://soruly.github.io/trace.moe-api/#/)
 * [Anilist API](https://anilist.gitbook.io/anilist-apiv2-docs/)
 * [Weather JS](https://www.npmjs.com/package/weather-js)
+* [Popcat API](https://popcat.xyz/api)
 * [CanvasJS](https://www.npmjs.com/package/canvas) --> For *Spin the Wheel* functionality
 * [Gifencoder](https://www.npmjs.com/package/gifencoder) --> For *Spin the Wheel* functionality
 
