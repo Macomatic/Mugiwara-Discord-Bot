@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { MessageAttachment } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -13,21 +14,13 @@ module.exports = {
         await interaction.deferReply();
 
         const person = interaction.options.getUser('user');
-        // const discordMention = '<@' + person.id + '>';
+        const discordMention = '<@' + person.id + '>';
 
         // api call
         const url = 'https://api.popcat.xyz/pet?image=https://cdn.discordapp.com/avatars/' + person.id + '/' + person.avatar;
-        fetch(url)
-            .then(response => response.blob())
-            .then(imageBlob => {
-                const imgObjURL = URL.createObjectURL(imageBlob);
-                interaction.editReply(imgObjURL);
-            })
-            .catch((error) => {
-                interaction.editReply(error);
-            });
+        const pet = new MessageAttachment(url, 'file.gif');
+        interaction.editReply({ content: `${discordMention}, you've been petted`, files: [pet] });
     
-        
 
     },
 };
