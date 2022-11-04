@@ -115,6 +115,10 @@ To install the Discord bot locally, you must follow these intructions.
    ```js
    "guildId": "DISCORD_SERVER_ID_GOES_HERE"
    ```
+10. Request an Unofficial Valorant API key from [here](https://github.com/Henrik-3/unofficial-valorant-api/) and replace the following value with that key
+   ```js
+   "VAPIKey": "VALORANT_API_KEY_GOES_HERE"
+   ```
 
 ## Usage
 
