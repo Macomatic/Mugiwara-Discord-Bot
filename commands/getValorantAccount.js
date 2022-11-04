@@ -39,6 +39,11 @@ module.exports = {
             return interaction.reply('Timeout while fetching data');
         }
 
+        else if (status == 429) {
+            return interaction.reply('API Limit: Try again later');
+        }
+
+
         // API call for MMR; happens after error check to ensure account exists
         const mmr = await VAPI.getMMR({ version: 'v1', region: account.data.region, name: account.data.name, tag: account.data.tag });
 
@@ -91,8 +96,8 @@ module.exports = {
                 text: '/getValAccount command', 
             });
 
-        return interaction.reply({ embeds: [embed] });
-
+        await interaction.deferReply();
+        await interaction.editReply({ embeds: [embed] });
 
     },
 };

@@ -49,7 +49,7 @@ module.exports = {
                 relevantNews.push(news[i]);
             }
 
-            if (relevantNews.length >= 3) {
+            if (relevantNews.length >= 3 || (relevantNews.length >= 1 && newsType == 'patch_notes')) {
                 break;
             }
         }
@@ -72,7 +72,7 @@ module.exports = {
         let date;
         for (let i = 0; i < relevantNews.length; i++) {
             
-            date = relevantNews[i].date.substring(0,10);
+            date = relevantNews[i].date.substring(0, 10);
 
             // embed
             const embed = new MessageEmbed()
