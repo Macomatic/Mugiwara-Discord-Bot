@@ -1,0 +1,33 @@
+const { SlashCommandBuilder } = require('@discordjs/builders');
+
+module.exports = {
+    data: new SlashCommandBuilder()
+        .setName('pet')
+        .setDescription('Pet the person')
+        .addUserOption(option => 
+            option.setName('user')
+                .setDescription('The @ of the discord person')
+                .setRequired(true)),
+    async execute(interaction) {
+
+        await interaction.deferReply();
+
+        const person = interaction.options.getUser('user');
+        // const discordMention = '<@' + person.id + '>';
+
+        // api call
+        const url = 'https://api.popcat.xyz/pet?image=https://cdn.discordapp.com/avatars/' + person.id + '/' + person.avatar;
+        fetch(url)
+            .then(response => response.blob())
+            .then(imageBlob => {
+                const imgObjURL = URL.createObjectURL(imageBlob);
+                interaction.editReply(imgObjURL);
+            })
+            .catch((error) => {
+                interaction.editReply(error);
+            });
+    
+        
+
+    },
+};
