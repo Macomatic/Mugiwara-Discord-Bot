@@ -13,9 +13,12 @@ module.exports = {
 
         const songName = interaction.options.getString('song_name');
         const params = encodeURIComponent(songName);
+
+        // api call
         const uri = 'https://api.popcat.xyz/lyrics?song=' + params;
         const user = interaction.options.getUser('user') || interaction.user;
 
+        // fetch the api
         fetch(uri)
             .then(response => response.json())
             .then(json => {
@@ -26,7 +29,6 @@ module.exports = {
 
                     // First, we need to handle long lyrics and divy them up into sections because discord has a char limit
                     let lyrics = json.lyrics;
-                    console.log(lyrics);
                     let lyricSection = '';
                     let isFormatted, idealLength = false;
                     const lyricsEB = [];
