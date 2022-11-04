@@ -10,6 +10,10 @@ module.exports = {
                 .setDescription('The end value of the range to get a random number from')
                 .setRequired(true)),
     async execute(interaction) {
+
+        // Give discord more time to handle the functionality by using deferReply
+        await interaction.deferReply();
+
         // random number generation, dependent on end range
         const endRange = interaction.options.getNumber('range');
         const random = Math.floor(Math.random() * (endRange + 1));
@@ -24,6 +28,6 @@ module.exports = {
             })
             .setTimestamp();
 
-            return interaction.reply({ embeds: [embed] });
+            interaction.editReply({ embeds: [embed] });
     },
 };

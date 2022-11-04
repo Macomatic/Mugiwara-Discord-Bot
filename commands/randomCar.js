@@ -7,6 +7,9 @@ module.exports = {
         .setDescription('Gets a random car'),
     async execute(interaction) {
 
+        // Give discord more time to handle the functionality by using deferReply
+        await interaction.deferReply();
+
         // api call
         const url = 'https://api.popcat.xyz/car';
         fetch(url)
@@ -31,10 +34,10 @@ module.exports = {
                         text: '/randomCar command', 
                 });
 
-                interaction.reply({ embeds: [embed] });
+                interaction.editReply({ embeds: [embed] });
             })
             .catch((error) => {
-                interaction.reply(error);
+                interaction.editReply(error);
             });
 
     },

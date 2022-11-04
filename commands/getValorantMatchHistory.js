@@ -16,6 +16,9 @@ module.exports = {
                 .setRequired(true)),
     async execute(interaction) {
 
+        // Give discord more time to handle the functionality by using deferReply
+        await interaction.deferReply();
+
         // Get params
         const username = interaction.options.getString('username');
         const tag = interaction.options.getString('tag');
@@ -34,15 +37,15 @@ module.exports = {
             // error handling
             const status = rankedGames.status;
             if (status == 400 || status == 404) {
-                return interaction.reply('Games do not exist on this account');
+                interaction.editReply('Games do not exist on this account');
             }
 
             else if (status == 403 || status == 503) {
-                return interaction.reply('Riot API Maintenance: Try again later');
+                interaction.editReply('Riot API Maintenance: Try again later');
             }
 
             else if (status == 408) {
-                return interaction.reply('Timeout while fetching data');
+                interaction.editReply('Timeout while fetching data');
             }
  
 
@@ -87,11 +90,11 @@ module.exports = {
 
                     embeds.push(gameEB);
             }
-            interaction.reply({ embeds: embeds });
+            interaction.editReply({ embeds: embeds });
     
         })
         .catch((error) => {
-            interaction.reply(error);
+            interaction.editReply(error);
         });
 
     },

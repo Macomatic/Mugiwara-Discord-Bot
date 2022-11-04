@@ -15,6 +15,10 @@ module.exports = {
                 .setDescription('Anime: tv, movie, ova, special, ona. Manga: manga, novel, lightnovel, manhwa, manhua')
                 .setRequired(false)),
     async execute(interaction) {
+
+        // Give discord more time to handle the functionality by using deferReply
+        await interaction.deferReply();
+
         const type = interaction.options.getString('type');
         const subtype = interaction.options.getString('subtype');
         let data = null;
@@ -27,7 +31,7 @@ module.exports = {
                 
             }
             else {
-                return interaction.reply('Give a valid subtype option');
+                interaction.editReply('Give a valid subtype option');
             }
 
             // Creating arrays to store each anime's crucial information to make an embed; rank is index + 1
@@ -83,7 +87,7 @@ module.exports = {
                 .addField(`#25: ${animeNames[24]}`, `Type: ${animeType[24]}, Episodes: ${animeEpisodes[24]}, Score: ${animeScore[24]}`)
                 .setFooter('/gettop anime command');
 
-                return interaction.reply({ embeds: [embed] });
+                interaction.editReply({ embeds: [embed] });
             
         }
         else if (type === 'manga') {
@@ -95,7 +99,7 @@ module.exports = {
                 
             }
             else {
-                return interaction.reply('Give a valid subtype option');
+                interaction.editReply('Give a valid subtype option');
             }
 
             // Creating arrays to store each manga's crucial information to make an embed; rank is index + 1
@@ -160,11 +164,11 @@ module.exports = {
                     text: '/gettop manga command',
                 });
 
-                return interaction.reply({ embeds: [embed] });
+                interaction.editReply({ embeds: [embed] });
 
         }
         else {
-            return interaction.reply('Give a valid type option');
+            interaction.editReply('Give a valid type option');
         }
     },
 };

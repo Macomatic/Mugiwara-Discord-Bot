@@ -6,15 +6,18 @@ module.exports = {
         .setDescription('Gives a random fact'),
     async execute(interaction) {
 
+        // Give discord more time to handle the functionality by using deferReply
+        await interaction.deferReply();
+
         // api call
         const url = 'https://api.popcat.xyz/fact';
         fetch(url)
             .then(response => response.json())
             .then(json => {
-                interaction.reply(json.fact);
+                interaction.editReply(json.fact);
             })
             .catch((error) => {
-                interaction.reply(error);
+                interaction.editReply(error);
             });
 
     },

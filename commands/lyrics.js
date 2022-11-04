@@ -11,6 +11,9 @@ module.exports = {
                 .setRequired(true)),
     async execute(interaction) {
 
+        // Give discord more time to handle the functionality by using deferReply
+        await interaction.deferReply();
+        
         const songName = interaction.options.getString('song_name');
         const params = encodeURIComponent(songName);
 
@@ -23,7 +26,7 @@ module.exports = {
             .then(response => response.json())
             .then(json => {
                 if (Object.prototype.hasOwnProperty.call(json, 'error')) {
-                    interaction.reply({ content: 'Please give a valid song name!', ephemeral: true });
+                    interaction.editReply({ content: 'Please give a valid song name!', ephemeral: true });
                 }
                 else {
 
@@ -83,13 +86,13 @@ module.exports = {
 
                     lyricsEB.push(lastEmbed);
 
-                    interaction.reply({ embeds: lyricsEB });
+                    interaction.editReply({ embeds: lyricsEB });
                 }
                 
 
             })
             .catch((error) => {
-                interaction.reply(error);
+                interaction.editReply(error);
             });
     },
 };

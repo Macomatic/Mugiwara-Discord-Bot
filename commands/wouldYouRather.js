@@ -7,6 +7,9 @@ module.exports = {
         .setDescription('Gives a would you rather'),
     async execute(interaction) {
 
+        // Give discord more time to handle the functionality by using deferReply
+        await interaction.deferReply();
+
         // api call
         const url = 'https://api.popcat.xyz/wyr';
         fetch(url)
@@ -21,10 +24,10 @@ module.exports = {
                         text: '/wyr command', 
                 });
 
-                interaction.reply({ embeds: [embed] });
+                interaction.editReply({ embeds: [embed] });
             })
             .catch((error) => {
-                interaction.reply(error);
+                interaction.editReply(error);
                 
             });
 

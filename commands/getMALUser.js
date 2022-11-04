@@ -12,6 +12,10 @@ module.exports = {
                 .setDescription('MAL username')
                 .setRequired(true)),
     async execute(interaction) {
+
+        // Give discord more time to handle the functionality by using deferReply
+        await interaction.deferReply();
+
         let username = (interaction.options.getString('username')).toLowerCase();
         username = username.charAt(0).toUpperCase() + username.slice(1);
 
@@ -29,11 +33,11 @@ module.exports = {
                 .setFooter({
                     text: '/getmaluser command',
                 });
-            return interaction.reply({ embeds: [embed] });
+            interaction.editReply({ embeds: [embed] });
         }
 
         catch (error) {
-            return interaction.reply('I could not find a MAL account with that username');
+            interaction.editReply('I could not find a MAL account with that username');
         }
     },
 };

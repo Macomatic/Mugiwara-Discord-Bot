@@ -10,6 +10,9 @@ module.exports = {
                 .setRequired(true)),
     async execute(interaction) {
 
+        // Give discord more time to handle the functionality by using deferReply
+        await interaction.deferReply();
+
         const person = interaction.options.getUser('user');
         const discordMention = '<@' + person.id + '>';
 
@@ -18,10 +21,10 @@ module.exports = {
         fetch(url)
             .then(response => response.json())
             .then(json => {
-                interaction.reply(discordMention + ', ' + json.pickupline);
+                interaction.editReply(discordMention + ', ' + json.pickupline);
             })
             .catch((error) => {
-                interaction.reply(error);
+                interaction.editReply(error);
             });
 
     },

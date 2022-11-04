@@ -12,17 +12,21 @@ module.exports = {
                 .setDescription('The city that you want the weather from')
                 .setRequired(true)),
     async execute(interaction) {
+
+        // Give discord more time to handle the functionality by using deferReply
+        await interaction.deferReply();
+
         const city = interaction.options.getString('city');
         weather.find({ search: city, degreeType: 'C' }, function(error, result) {
             // error checking
             if (error) {
-                return interaction.reply(error);
+                interaction.editReply(error);
             }
             if (!city) {
-                return interaction.reply('Please provide a city name');
+                interaction.editReply('Please provide a city name');
             }
             if (result === undefined || result.length == 0) {
-                return interaction.reply('Please give a valid location');
+                interaction.editReply('Please give a valid location');
             }
 
             const currentStatus = result[0].current;
@@ -58,7 +62,7 @@ module.exports = {
                     text: '/weather command',
                 });
 
-                return interaction.reply({ embeds: [embed] });
+                interaction.editReply({ embeds: [embed] });
 
         });
     },

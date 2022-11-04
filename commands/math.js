@@ -18,6 +18,10 @@ module.exports = {
                 .setDescription('The second number sequentially following the operation call')
                 .setRequired(true)),
     async execute(interaction) {
+
+        // Give discord more time to handle the functionality by using deferReply
+        await interaction.deferReply();
+
         const operation = (interaction.options.getString('operation')).toLowerCase();
         let operationSymbol = ' ';
         const fNum = interaction.options.getNumber('a');
@@ -52,7 +56,7 @@ module.exports = {
         }
         // error checking
         else { 
-            return interaction.reply('Please provide a valid operation from the options');
+            interaction.editReply('Please provide a valid operation from the options');
         }
 
         // creating the embed for the math result
@@ -63,6 +67,6 @@ module.exports = {
             .setColor('#2B51DF')
             .setTimestamp();
 
-            return interaction.reply({ embeds: [embed] });
+            interaction.editReply({ embeds: [embed] });
     },
 };

@@ -19,6 +19,9 @@ module.exports = {
             .setRequired(true)),
     async execute(interaction) {
 
+        // Give discord more time to handle the functionality by using deferReply
+        await interaction.deferReply();
+
         // using trace.moe API call to get information, saving it to a variable for future use
         const imageUrl = interaction.options.getString('url');
         const searchResults = await traceClient.getSimilarFromURL(imageUrl);        
@@ -26,7 +29,7 @@ module.exports = {
         // I'm only giving results when the API has a confidence rating above 90%
         let similarity = parseFloat(searchResults.result[0].similarity);
         if (similarity < 0.88) {
-            return interaction.reply('I could not determine which anime this comes from with absolute certainty. Please try another image!');
+            interaction.editReply('I could not determine which anime this comes from with absolute certainty. Please try another image!');
         }
 
         similarity = similarity * 100;
@@ -91,7 +94,7 @@ module.exports = {
                 });
                 
 
-                return interaction.reply({ embeds: [embed] });
+            interaction.editReply({ embeds: [embed] });
         });
     
     },

@@ -12,6 +12,9 @@ module.exports = {
                 .setRequired(true)),
     async execute(interaction) {
 
+        // Give discord more time to handle the functionality by using deferReply
+        await interaction.deferReply();
+
         // Grabbing the crosshair code
         const chcode = interaction.options.getString('ch_code');
 
@@ -22,15 +25,15 @@ module.exports = {
         // error handling
         const status = crosshair.status;
         if (status == 400 || status == 404) {
-            return interaction.reply('Please provide a valid valorant crosshair code');
+            interaction.editReply('Please provide a valid valorant crosshair code');
         }
 
         else if (status == 403 || status == 503) {
-            return interaction.reply('Riot API Maintenance: Try again later');
+            interaction.editReply('Riot API Maintenance: Try again later');
         }
 
         else if (status == 408) {
-            return interaction.reply('Timeout while fetching data');
+            interaction.editReply('Timeout while fetching data');
         }
 
         // creating embed for crosshair display in chat
@@ -43,7 +46,7 @@ module.exports = {
                 text: '/getvalorantch command',
             });
 
-            return interaction.reply({ embeds: [embed] });
+            interaction.editReply({ embeds: [embed] });
 
 
     },

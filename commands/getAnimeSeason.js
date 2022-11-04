@@ -11,6 +11,10 @@ module.exports = {
                 .setDescription('Options: current, upcoming')
                 .setRequired(true)),
     async execute(interaction) {
+
+        // Give discord more time to handle the functionality by using deferReply
+        await interaction.deferReply();
+
         const option = interaction.options.getString('option');
         let data = null;
         let title = ' ';
@@ -23,7 +27,7 @@ module.exports = {
             title = 'Top 10 Anime for the Upcoming Season';
         }
         else {
-            return interaction.reply('Give a valid option');
+            return interaction.editReply('Give a valid option');
         }
 
         // Creating arrays to store anime information
@@ -108,6 +112,6 @@ module.exports = {
                     text: '/gettop anime command',
                 });
 
-                return interaction.reply({ embeds: [embed] });
+        interaction.editReply({ embeds: [embed] });
     },
 };

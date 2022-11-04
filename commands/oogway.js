@@ -10,12 +10,15 @@ module.exports = {
                 .setRequired(true)),
     async execute(interaction) {
 
+        // Give discord more time to handle the functionality by using deferReply
+        await interaction.deferReply();
+
         const text = interaction.options.getString('text');
         const params = encodeURIComponent(text);
 
         // api call
         const url = 'https://api.popcat.xyz/oogway?text=' + params;
-        interaction.reply(url);
+        interaction.editReply(url);
 
     },
 };

@@ -10,11 +10,14 @@ module.exports = {
                 .setRequired(true)),
     async execute(interaction) {
 
+        // Give discord more time to handle the functionality by using deferReply
+        await interaction.deferReply();
+
         const person = interaction.options.getUser('user');
 
         // api call
         const url = 'https://api.popcat.xyz/clown?image=https://cdn.discordapp.com/avatars/' + person.id + '/' + person.avatar;
-        interaction.reply(url);
+        interaction.editReply(url);
 
     },
 };

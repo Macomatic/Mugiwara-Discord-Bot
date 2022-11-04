@@ -17,6 +17,7 @@ module.exports = {
                 .setRequired(true)),
     async execute(interaction) {
 
+        // Give discord more time to handle the functionality by using deferReply
         await interaction.deferReply();
 
         // Get params
@@ -37,19 +38,19 @@ module.exports = {
             // error handling
             const status = account.status;
             if (status == 400 || status == 404) {
-                return interaction.reply('This account does not exist or is private');
+                interaction.editReply('This account does not exist or is private');
             }
 
             else if (status == 403 || status == 503) {
-                return interaction.reply('Riot API Maintenance: Try again later');
+                interaction.editReply('Riot API Maintenance: Try again later');
             }
 
             else if (status == 408) {
-                return interaction.reply('Timeout while fetching data');
+                interaction.editReply('Timeout while fetching data');
             }
 
             else if (status == 429) {
-                return interaction.reply('API Limit: Try again later');
+                interaction.editReply('API Limit: Try again later');
             }
 
 

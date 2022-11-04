@@ -11,6 +11,9 @@ module.exports = {
                 .setRequired(true)),
     async execute(interaction) {
 
+        // Give discord more time to handle the functionality by using deferReply
+        await interaction.deferReply();
+        
         const question = interaction.options.getString('question');
         const params = encodeURIComponent(question);
         const uri = 'https://8ball.delegator.com/magic/JSON/' + params;
@@ -30,10 +33,10 @@ module.exports = {
                         text: '/8ball command', 
                 });
 
-                interaction.reply({ embeds: [embed] });
+                interaction.editReply({ embeds: [embed] });
             })
             .catch((error) => {
-                interaction.reply(error);
+                interaction.editReply(error);
             });
     },
 };

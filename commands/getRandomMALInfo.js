@@ -11,6 +11,10 @@ module.exports = {
                 .setDescription('Options: anime, manga, characters, people')
                 .setRequired(true)),
     async execute(interaction) {
+
+        // Give discord more time to handle the functionality by using deferReply
+        await interaction.deferReply();
+
         const type = interaction.options.getString('type');
         
         // if they choose to get random info about anime
@@ -73,7 +77,7 @@ module.exports = {
                 .setFooter('/getrandom anime command');
 
 
-                return interaction.reply({ embeds: [embed] });
+                interaction.editReply({ embeds: [embed] });
         }
         // if they choose to get random info about manga
         else if (type === 'manga') {
@@ -149,7 +153,7 @@ module.exports = {
                 .addField('MAL Link', `[Link](https://myanimelist.net/manga/${malID})`)
                 .setFooter('/findrandommal manga command');
   
-            return interaction.reply({ embeds: [embed] });
+            interaction.editReply({ embeds: [embed] });
 
         }
         // if they choose to get random info about manga/anime characters 
@@ -165,7 +169,7 @@ module.exports = {
                 .addField('MAL Link', `[Link](${malLink})`, true)
                 .setFooter('/findrandommal characters command');
 
-                return interaction.reply({ embeds: [embed] });
+                interaction.editReply({ embeds: [embed] });
 
         }
         // if they choose to get random info about anime/manga people
@@ -183,10 +187,10 @@ module.exports = {
                     text: '/findrandommal people command',
                 });
 
-                return interaction.reply({ embeds: [embed] });
+                interaction.editReply({ embeds: [embed] });
         }
         else {
-            return interaction.reply('Give a valid option');
+            interaction.editReply('Give a valid option');
         }
 
     },

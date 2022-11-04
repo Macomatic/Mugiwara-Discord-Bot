@@ -12,9 +12,11 @@ module.exports = {
                 .setRequired(true)),
     async execute(interaction) {
 
+        // Give discord more time to handle the functionality by using deferReply
+        await interaction.deferReply();
+
         // Get params
         const type = interaction.options.getString('category');
-
 
         // API call to get basic account info
         const url = 'https://api.henrikdev.xyz/valorant/v1/website/en-us';
@@ -28,19 +30,19 @@ module.exports = {
             // error handling
             const status = newsPayload.status;
             if (status == 400 || status == 404) {
-                return interaction.reply('This account does not exist or is private');
+                interaction.editReply('This account does not exist or is private');
             }
 
             else if (status == 403 || status == 503) {
-                return interaction.reply('Riot API Maintenance: Try again later');
+                interaction.editReply('Riot API Maintenance: Try again later');
             }
 
             else if (status == 408) {
-                return interaction.reply('Timeout while fetching data');
+                interaction.editReply('Timeout while fetching data');
             }
 
             else if (type != 'patch_notes' && type != 'esports' && type != 'game_updates' && type != 'dev' && type != 'community' && type != 'announcements') {
-                return interaction.reply('Please provide a valid, CASE-SENSITIVE option');
+                interaction.editReply('Please provide a valid, CASE-SENSITIVE option');
             }
 
             // Parse through all the news to find the 3 most recent of the provided type of news
@@ -94,10 +96,10 @@ module.exports = {
                     newsEB.push(embed);
             }
         
-            return interaction.reply({ embeds: newsEB });
+            interaction.editReply({ embeds: newsEB });
         })
         .catch((error) => {
-            interaction.reply(error);
+            interaction.editReply(error);
         });
 
     },
