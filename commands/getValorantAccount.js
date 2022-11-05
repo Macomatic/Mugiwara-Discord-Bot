@@ -96,7 +96,9 @@ module.exports = {
                 }
 
                 // Tracker.gg URL 
-                const url = `https://tracker.gg/valorant/profile/riot/${account.data.name}%23${account.data.tag}/overview`;
+                const uriName = encodeURIComponent(account.data.name);
+                const uriTag = encodeURIComponent(account.data.tag);
+                const url = `https://tracker.gg/valorant/profile/riot/${uriName}%23${uriTag}/overview`;
 
                 // embed
                 const embed = new MessageEmbed()
