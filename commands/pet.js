@@ -19,7 +19,7 @@ module.exports = {
         // api call
         const url = 'https://api.popcat.xyz/pet?image=https://cdn.discordapp.com/avatars/' + person.id + '/' + person.avatar;
         const pet = new MessageAttachment(url, 'file.gif');
-        interaction.editReply({ content: `${discordMention}, you've been petted`, files: [pet] });
+        interaction.editReply({ content: `${discordMention}, everything will be ok`, files: [pet] });
     
 
     },
