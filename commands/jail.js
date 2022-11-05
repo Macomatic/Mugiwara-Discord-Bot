@@ -14,10 +14,11 @@ module.exports = {
         await interaction.deferReply();
 
         const person = interaction.options.getUser('user');
+        const discordMention = '<@' + person.id + '>';
 
         // api call
         const url = 'https://api.popcat.xyz/jail?image=https://cdn.discordapp.com/avatars/' + person.id + '/' + person.avatar;
-        interaction.editReply(url);
+        interaction.editReply(`${discordMention}, jailed bozo\n${url}`);
 
     },
 };
