@@ -17,7 +17,7 @@ module.exports = {
                 interaction.editReply(json.result);
             })
             .catch((error) => {
-                interaction.editReply(error);
+                interaction.editReply('Error: ' + error);
             });
 
     },
