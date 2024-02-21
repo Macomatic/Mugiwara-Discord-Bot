@@ -181,13 +181,13 @@ module.exports = {
                 let rankChange = 'No progress';
                 if (netMMR > 0) {
                     embedColor = '#30EF53';
-                    if (session.data[0].currenttierpatched != session.data[concurrentGames - 1].currenttierpatched || session.data[0].currenttierpatched != session.data[concurrentGames].currenttierpatched) {
+                    if (session.data[0].currenttierpatched != session.data[concurrentGames].currenttierpatched) {
                         rankChange = 'Promotion';
                     }
                 }
                 else {
                     embedColor = '#FC2D10';
-                    if (session.data[0].currenttierpatched != session.data[concurrentGames - 1].currenttierpatched || session.data[0].currenttierpatched != session.data[concurrentGames].currenttierpatched) {
+                    if (session.data[0].currenttierpatched != session.data[concurrentGames].currenttierpatched) {
                         rankChange = 'Demotion';
                     }
                 }
