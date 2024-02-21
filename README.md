@@ -134,6 +134,7 @@ The command prompt should say *Bot is online and running!*. Check your discord s
 
 Now type a / in chat, click the bot's icon on the left navbar on the popup, and you should be able to see all of the bots commands. Commands include, but are not limited to:
 
+* /help [category]: Shows all commands for a particular category
 * /animebypicture: Finds the anime based on a given image
 * /getrandommal: Finds random information on MAL on the given parameter
 * /gettopmal: Gets the top 25 of the given parameter on MAL
