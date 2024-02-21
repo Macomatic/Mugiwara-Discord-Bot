@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('drake')
+        .setName('drakememe')
         .setDescription('Creates the drake meme')
         .addStringOption(option => 
             option.setName('text1')

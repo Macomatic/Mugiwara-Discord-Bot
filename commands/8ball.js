@@ -17,7 +17,6 @@ module.exports = {
         const question = interaction.options.getString('question');
         const params = encodeURIComponent(question);
         const uri = 'https://eightballapi.com/api/biased?question=' + params + '&lucky=false';
-        console.log(uri);
         const user = interaction.options.getUser('user') || interaction.user;
         const pfp = user.displayAvatarURL({ format: 'png' });
 

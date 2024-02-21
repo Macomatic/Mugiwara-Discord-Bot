@@ -4,7 +4,7 @@ const { MessageEmbed } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('getvalbundle')
+        .setName('getvalstore')
         .setDescription('Gets the currently featured bundle in the Valorant store'),
     async execute(interaction) {
 
