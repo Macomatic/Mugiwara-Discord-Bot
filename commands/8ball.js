@@ -16,7 +16,7 @@ module.exports = {
         
         const question = interaction.options.getString('question');
         const params = encodeURIComponent(question);
-        const uri = 'https://8ball.delegator.com/magic/JSON/' + params;
+        const uri = 'https://eightballapi.com/api/biased?question=' + params + '&lucky=false';
         const user = interaction.options.getUser('user') || interaction.user;
         const pfp = user.displayAvatarURL({ format: 'png' });
 
@@ -26,7 +26,7 @@ module.exports = {
 
                 const embed = new MessageEmbed()
                     .setTitle(`${user.username} asks: ${question}`)
-                    .setDescription(`${json.magic.answer}`)
+                    .setDescription(`${json.reading}`)
                     .setColor('#805183')
                     .setThumbnail(pfp)
                     .setFooter({

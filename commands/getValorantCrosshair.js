@@ -7,7 +7,7 @@ module.exports = {
         .setName('getvalcrosshair')
         .setDescription('Gets the valorant crosshair from a crosshair code')
         .addStringOption(option => 
-            option.setName('ch_code')
+            option.setName('code')
                 .setDescription('Crosshair code')
                 .setRequired(true)),
     async execute(interaction) {

@@ -58,7 +58,8 @@ module.exports = {
             const gameDate = []; 
             let concurrentGames = 0;
             let updated = false;
-            let approxMinutes = 0;
+            let approxMinutes = 26;
+            let netMMR = 0;
             for (let i = 0; i < session.data.length; i++) {
             
                 // first we are gonna count how many games we believe are concurrent/within the same session
@@ -105,6 +106,7 @@ module.exports = {
                     gameDate.push(hour);
                     gameDate.push(min);
                     concurrentGames += 1;
+                    netMMR += session.data[i].mmr_change_to_last_game;
                 }
 
                 // checking if game is concurrent
@@ -115,6 +117,7 @@ module.exports = {
                         concurrentGames++;
                         updated = true;
                         approxMinutes += (gameDate[5] - min);
+                        netMMR += session.data[i].mmr_change_to_last_game;
                     }
 
                     // // case 2: same day diff hour diff minutes => games on the same day but could be hours apart, need to check time diff
@@ -129,6 +132,7 @@ module.exports = {
                         else {
                             approxMinutes += ((gameDate[4] * 60) - (hour * 60)) + (gameDate[5] - min);
                         }
+                        netMMR += session.data[i].mmr_change_to_last_game;
                         
                     }
 
@@ -137,12 +141,13 @@ module.exports = {
                         concurrentGames++;
                         updated = true;
                         approxMinutes += 60 - min + gameDate[5];
+                        netMMR += session.data[i].mmr_change_to_last_game;
                     }   
 
                     // // not concurrent
                     else {
                         if (concurrentGames == 1) {
-                            interaction.editReply('You only played one concurrent game! Use /getvalr to view your games');
+                            interaction.editReply('You only played one concurrent game! Use /getvalmatches to view your games');
                         }
                         else {
                             break;
@@ -164,102 +169,113 @@ module.exports = {
 
             }
 
-            // format the embed
-            let embedColor;
-            const netMMR = session.data[0].elo - session.data[concurrentGames - 1].elo;
-            let rankChange = 'No progress';
-            if (netMMR > 0) {
-                embedColor = '#30EF53';
-                if (session.data[0].currenttierpatched != session.data[concurrentGames - 1].currenttierpatched) {
-                    rankChange = 'Promotion';
+            // Checking for promotion/demotion
+
+            // NEED TO CHECK EDGE CASE WHERE BEFORE CURRENT SESSION START, THEY WERE AT 0 RR
+                // If first game is a loss, they demote however since session dictates that their first game was in demoted rank, it would say no change
+                // New check added to check game prior to session for rank change as well
+
+            if (concurrentGames > 1) {
+                // format the embed
+                let embedColor;
+                let rankChange = 'No progress';
+                if (netMMR > 0) {
+                    embedColor = '#30EF53';
+                    if (session.data[0].currenttierpatched != session.data[concurrentGames - 1].currenttierpatched || session.data[0].currenttierpatched != session.data[concurrentGames].currenttierpatched) {
+                        rankChange = 'Promotion';
+                    }
                 }
-            }
-            else {
-                embedColor = '#FC2D10';
-                if (session.data[0].currenttierpatched != session.data[concurrentGames - 1].currenttierpatched) {
-                    rankChange = 'Demotion';
+                else {
+                    embedColor = '#FC2D10';
+                    if (session.data[0].currenttierpatched != session.data[concurrentGames - 1].currenttierpatched || session.data[0].currenttierpatched != session.data[concurrentGames].currenttierpatched) {
+                        rankChange = 'Demotion';
+                    }
                 }
-            }
 
 
-            let customGifURL;
-            let keepPlaying;
-            
-            // Close to rankup
-            if (session.data[0].elo % 100 > 83 && rankChange == 'No progress') {
-                keepPlaying = 'So close to rankup! Play 1 more';
-                customGifURL = 'https://media.tenor.com/cXeMgwdhMDYAAAAC/all-might-plus-ultra.gif';
-            }
+                let customGifURL;
+                let keepPlaying;
+                
+                // Close to rankup
+                if (session.data[0].elo % 100 > 83 && rankChange == 'No progress') {
+                    keepPlaying = 'Don\'t choke the rankup';
+                    customGifURL = 'https://media1.tenor.com/m/PiFqVBIspFYAAAAC/anime-choke.gif';
+                }
 
-            // Close to demotion
-            else if (session.data[0].elo % 100 < 15 && rankChange == 'No progress') {
-                keepPlaying = 'Try not to demote';
-                customGifURL = 'https://media.tenor.com/tGsGznZYDu8AAAAd/sage-valorant-sage.gif';
-            }
+                // Close to demotion
+                else if (session.data[0].elo % 100 < 15 && rankChange == 'No progress') {
+                    keepPlaying = 'You\'re in dangerous territory';
+                    customGifURL = 'https://media.tenor.com/tGsGznZYDu8AAAAd/sage-valorant-sage.gif';
+                }
 
-            // Demotion game
-            else if (session.data[0].elo % 100 == 0) {
-                keepPlaying = '(ㆆ _ ㆆ)';
-                customGifURL = 'https://media.tenor.com/wubkOVCMIScAAAAC/sweating.gif';
-            }
-            
-            // Negative MMR
-            else if (netMMR < 0 && netMMR > -22) {
-                keepPlaying = 'Can\'t end on a loss';
-                customGifURL = 'https://media.tenor.com/DsYfqtK1WhcAAAAC/fnaf-withered-chica.gif';
-            }
-            else if (netMMR <= -22 && netMMR > -50) {
-                keepPlaying = 'Take a break';
-                customGifURL = 'https://media.tenor.com/CW-0A0q-6ksAAAAd/touching-grass.gif';
-            }
-            else if (netMMR <= -50 && netMMR > -80) {
-                keepPlaying = 'Down horrendous';
-                customGifURL = 'https://media.tenor.com/zkIhdydgeAYAAAAd/ousama-ranking-bojji.gif';
-            }
-            else if (netMMR <= -80) {
-                keepPlaying = 'Uninstall';
-                customGifURL = 'https://media.tenor.com/3OFnL8VfOmwAAAAd/david-edgerunners.gif';
-            }
+                // Demotion game
+                else if (session.data[0].elo % 100 == 0) {
+                    keepPlaying = '(ㆆ _ ㆆ)';
+                    customGifURL = 'https://media1.tenor.com/m/sOYJlfNaeQcAAAAd/kirby-roblox.gif';
+                }
+                
+                // Negative MMR
+                else if (netMMR < 0 && netMMR > -22) {
+                    keepPlaying = 'Can\'t end while negative';
+                    customGifURL = 'https://media1.tenor.com/m/cJRcMyUAiMcAAAAd/ah-shit-here-we-go-again-ah-shit.gif';
+                }
+                else if (netMMR <= -22 && netMMR > -50) {
+                    keepPlaying = 'Take a break';
+                    customGifURL = 'https://media.tenor.com/CW-0A0q-6ksAAAAd/touching-grass.gif';
+                }
+                else if (netMMR <= -50 && netMMR > -80) {
+                    keepPlaying = 'Down horrendous';
+                    customGifURL = 'https://media.tenor.com/zkIhdydgeAYAAAAd/ousama-ranking-bojji.gif';
+                }
+                else if (netMMR <= -80) {
+                    keepPlaying = 'Uninstall';
+                    customGifURL = 'https://media1.tenor.com/m/rYCdWzuqXIIAAAAC/petty-parker-smoke.gif';
+                }
 
-            // Neutral/Positive MMR
-            else if (netMMR == 0) {
-                keepPlaying = `You played ${concurrentGames} games and made no progress lmao`;
-                customGifURL = 'https://media.tenor.com/DsYfqtK1WhcAAAAC/fnaf-withered-chica.gif';
-            }
-            else if (netMMR > 0 && netMMR < 50) {
-                keepPlaying = 'You\'re up';
-                customGifURL = 'https://media.tenor.com/YV2WPrnq7NwAAAAC/jett-valorant.gif';
-            }
-            else if (netMMR >= 50 && netMMR < 80) {
-                keepPlaying = 'Up good';
-                customGifURL = 'https://media.tenor.com/HrdCsKACgUMAAAAC/luffy-one-piece.gif';
-            }
-            else {
-                keepPlaying = 'Gigachad status';
-                customGifURL = 'https://media.tenor.com/ooszlfS5lo4AAAAd/goku-ultra-instinct.gif';
-            }
+                // Neutral/Positive MMR
+                else if (netMMR == 0) {
+                    keepPlaying = `Imagine playing ${concurrentGames} games and making no progress lmao`;
+                    customGifURL = 'https://media1.tenor.com/m/CRsWMpXOLpYAAAAC/laughing-straight-laughing-to-straight-face-emoji.gif';
+                }
+                else if (netMMR > 0 && netMMR <= 20) {
+                    keepPlaying = 'A win is a win';
+                    customGifURL = 'https://media.tenor.com/YV2WPrnq7NwAAAAC/jett-valorant.gif'; 
+                }
+                else if (netMMR > 20 && netMMR < 50) {
+                    keepPlaying = 'You\'re up';
+                    customGifURL = 'https://media1.tenor.com/m/kkKH_A8zaG8AAAAC/buttsmarnn.gif';
+                }
+                else if (netMMR >= 50 && netMMR < 80) {
+                    keepPlaying = 'Up good';
+                    customGifURL = 'https://media1.tenor.com/m/L-I_GamUq3sAAAAC/gear-5-luffy-gear-5.gif';
+                }
+                else {
+                    keepPlaying = 'Gigachad';
+                    customGifURL = 'https://media.tenor.com/ooszlfS5lo4AAAAd/goku-ultra-instinct.gif';
+                }
 
-            const hourFormat = Math.floor(approxMinutes / 60);
-            const minFormat = approxMinutes - (hourFormat * 60);
-            const playtime = `${hourFormat} hours, ${minFormat} minutes`;
+                const hourFormat = Math.floor(approxMinutes / 60);
+                const minFormat = approxMinutes - (hourFormat * 60);
+                const playtime = `${hourFormat} hours, ${minFormat} minutes`;
 
 
-            const embed = new MessageEmbed()
-                .setTitle(`${session.name} #${session.tag}`)
-                .setDescription(`Recent Game Session: ${concurrentGames} games`)
-                .addField('Rank', `${session.data[0].currenttierpatched}`, true)
-                .addField('Net MMR', `${netMMR}`, true)
-                .addField('Rank Change', `${rankChange}`, true)
-                .addField('Approx. playtime', `${playtime}`, true)
-                .addField('Status', `${keepPlaying}`, true)
-                .setColor(embedColor)
-                .setThumbnail(session.data[0].images.small)
-                .setImage(customGifURL)
-                .setFooter({
-                    text: '/getvalsession command', 
-                });
+                const embed = new MessageEmbed()
+                    .setTitle(`${session.name} #${session.tag}`)
+                    .setDescription(`Recent Game Session: ${concurrentGames} games`)
+                    .addField('Rank', `${session.data[0].currenttierpatched}`, true)
+                    .addField('Net MMR', `${netMMR}`, true)
+                    .addField('Rank Change', `${rankChange}`, true)
+                    .addField('Approx. playtime', `${playtime}`, true)
+                    .addField('Status', `${keepPlaying}`, true)
+                    .setColor(embedColor)
+                    .setThumbnail(session.data[0].images.small)
+                    .setImage(customGifURL)
+                    .setFooter({
+                        text: '/getvalsession command', 
+                    });
 
-                interaction.editReply({ embeds: [embed] });
+                    interaction.editReply({ embeds: [embed] });
+            }
 
         })
         .catch((error) => {
