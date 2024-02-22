@@ -75,7 +75,7 @@ module.exports = {
         const steamEmbed = new MessageEmbed()
             .setColor('NAVY')
             .setTitle('Steam Commands')
-
+            .addFields({ name: '/helldiverspc', value: 'Gets the current HellDivers 2 Player Count' })
             .setFooter({ text: 'Steam commands' })
             .setTimestamp();
 
